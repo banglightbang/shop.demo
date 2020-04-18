@@ -1,0 +1,38 @@
+server:
+  port: 10300
+
+eureka:
+  client:
+    enabled: false
+  instance:
+    appname: iventory
+    instanceId: iventory:${spring.application.instance-id:${random.value}}
+
+spring:
+  application:
+    name: iventory
+  jackson:
+    serialization:
+      write-durations-as-timestamps: false
+  data:
+    mongodb:
+      host: localhost
+      port: 0
+      database: iventory-test
+  main:
+    allow-bean-definition-overriding: true
+  mvc:
+    favicon:
+      enabled: false
+  task:
+    execution:
+      thread-name-prefix: iventory-task-
+      pool:
+        core-size: 1
+        max-size: 50
+        queue-capacity: 10000
+    scheduling:
+      thread-name-prefix: gateway-scheduling-
+      pool:
+        size: 1
+
