@@ -1,5 +1,15 @@
 server:
-  port: 8081
+  port: 8888
+
+spring:
+  cloud:
+    config:
+      server:
+        git:
+          uri: ${HOME}/Documents/projects/shopconfig
+  jackson:
+    serialization:
+      INDENT_OUTPUT: true
 
 eureka:
   client:
@@ -13,8 +23,8 @@ eureka:
     service-url:
       defaultZone: http://localhost:8761/eureka/
   instance:
-    appname: inventory
-    instanceId: inventory:${spring.application.instance-id:${random.value}}
+    appname: config-server
+    instanceId: config-server:${spring.application.instance-id:${random.value}}
     lease-renewal-interval-in-seconds: 5
     lease-expiration-duration-in-seconds: 10
     status-page-url-path: ${management.endpoints.web.base-path}/info
@@ -25,7 +35,7 @@ management:
     web:
       base-path: /management
       exposure:
-        include: ['configprops', 'env', 'health', 'info', 'logfile', 'loggers', 'prometheus', 'threaddump', 'refresh']
+        include: ['configprops', 'env', 'health', 'info', 'logfile', 'loggers', 'prometheus', 'threaddump']
   endpoint:
     health:
       show-details: always
@@ -50,11 +60,3 @@ management:
         all: 0, 0.5, 0.75, 0.95, 0.99, 1.0
     tags:
       application: ${spring.application.name}
-
-spring:
-  data:
-    mongodb:
-      database: iventory
-  jackson:
-    serialization:
-      INDENT_OUTPUT: true
