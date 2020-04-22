@@ -24,6 +24,7 @@ public class OrderEventListener {
         order.setId(event.getOrderId());
         order.setItems(event.getItemIds());
         order.setOrderStatus(Order.OrderStatus.CREATED);
+        order.setTotalPrice(event.getTotalPrice());
         orderRepository.save(order);
     }
 

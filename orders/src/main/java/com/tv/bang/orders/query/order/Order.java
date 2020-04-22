@@ -3,6 +3,7 @@ package com.tv.bang.orders.query.order;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Getter
@@ -22,4 +23,5 @@ public class Order {
     private String id;
     private List<String> items;
     private OrderStatus orderStatus;
+    private BigDecimal totalPrice;
 }

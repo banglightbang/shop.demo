@@ -19,7 +19,7 @@ public class OrderController {
     }
 
     @PostMapping("/orders")
-    public void create(@RequestBody List<String> itemsIds) {
+    public void create(@RequestBody List<String> itemsIds) throws Exception {
         orderService.create(itemsIds);
     }
 }

@@ -6,11 +6,13 @@ import org.axonframework.test.aggregate.FixtureConfiguration;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
 public class OrderAggregateUnitTest {
+
     private FixtureConfiguration<OrderAggregate> fixture;
 
     @BeforeEach
@@ -22,16 +24,18 @@ public class OrderAggregateUnitTest {
     public void giveNoPriorActivityWhenCreateOrderCommandThenShouldPublishOrderCreatedEvent() {
         String orderId = UUID.randomUUID().toString();
         List<String> itemIds = Arrays.asList(UUID.randomUUID().toString());
+        BigDecimal totalPrice = new BigDecimal(10);
         fixture.givenNoPriorActivity()
-            .when(new CreateOrderCommand(orderId, itemIds))
-            .expectEvents(new OrderCreatedEvent(orderId, itemIds));
+            .when(new CreateOrderCommand(orderId, itemIds, new BigDecimal(10)))
+            .expectEvents(new OrderCreatedEvent(orderId, itemIds, totalPrice));
     }
 
     @Test
     public void givenOrderCreatedEventWhenCheckoutOrderCommandThenShouldPublishOrderCheckedOutEvent() {
         String orderId = UUID.randomUUID().toString();
         List<String> itemIds = Arrays.asList(UUID.randomUUID().toString());
-        fixture.given(new OrderCreatedEvent(orderId, itemIds))
+        BigDecimal totalPrice = new BigDecimal(10);
+        fixture.given(new OrderCreatedEvent(orderId, itemIds, totalPrice))
             .when(new CheckOutOrderCommand(orderId))
             .expectEvents(new OrderCheckedOutEvent(orderId));
     }
@@ -40,7 +44,8 @@ public class OrderAggregateUnitTest {
     public void givenOrderCheckedOutEventWhenCancelOrderCommandThenShouldThrowOrderAlreadyCheckedOutException() {
         String orderId = UUID.randomUUID().toString();
         List<String> itemIds = Arrays.asList(UUID.randomUUID().toString());
-        fixture.given(new OrderCreatedEvent(orderId, itemIds), new OrderCheckedOutEvent(orderId))
+        BigDecimal totalPrice = new BigDecimal(10);
+        fixture.given(new OrderCreatedEvent(orderId, itemIds, totalPrice), new OrderCheckedOutEvent(orderId))
             .when(new CancelOrderCommand(orderId))
             .expectException(OrderAlreadyCheckedOutException.class);
     }
@@ -49,7 +54,8 @@ public class OrderAggregateUnitTest {
     public void givenOrderCreatedEventWhenCancelOrderCommandThenShouldPublishOrderCanceledEvent() {
         String orderId = UUID.randomUUID().toString();
         List<String> itemIds = Arrays.asList(UUID.randomUUID().toString());
-        fixture.given(new OrderCreatedEvent(orderId, itemIds))
+        BigDecimal totalPrice = new BigDecimal(10);
+        fixture.given(new OrderCreatedEvent(orderId, itemIds, totalPrice))
             .when(new CancelOrderCommand(orderId))
             .expectEvents(new OrderCanceledEvent(orderId));
     }

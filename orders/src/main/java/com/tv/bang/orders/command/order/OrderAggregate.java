@@ -5,6 +5,7 @@ import org.axonframework.eventsourcing.EventSourcingHandler;
 import org.axonframework.modelling.command.AggregateIdentifier;
 import org.axonframework.spring.stereotype.Aggregate;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import static org.axonframework.modelling.command.AggregateLifecycle.apply;
@@ -16,12 +17,13 @@ public class OrderAggregate {
     private String orderId;
     private List<String> itemIds;
     private OrderStatus status;
+    private BigDecimal totalPrice;
 
     protected OrderAggregate() {}
 
     @CommandHandler
     public OrderAggregate(CreateOrderCommand command) {
-        apply(new OrderCreatedEvent(command.getOrderId(), command.getItemIds()));
+        apply(new OrderCreatedEvent(command.getOrderId(), command.getItemIds(), command.getTotalPrice()));
     }
 
     @CommandHandler
@@ -42,6 +44,7 @@ public class OrderAggregate {
         this.orderId = event.getOrderId();
         this.itemIds = event.getItemIds();
         this.status = OrderStatus.CREATED;
+        this.totalPrice = event.getTotalPrice();
     }
 
     @EventSourcingHandler
