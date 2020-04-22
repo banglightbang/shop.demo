@@ -4,6 +4,7 @@ import com.tv.bang.orders.command.order.OrderCanceledEvent;
 import com.tv.bang.orders.command.order.OrderCheckedOutEvent;
 import com.tv.bang.orders.command.order.OrderCreatedEvent;
 import org.axonframework.eventhandling.EventHandler;
+import org.axonframework.queryhandling.QueryHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -34,6 +35,11 @@ public class OrderEventListener {
     @EventHandler
     public void on(OrderCanceledEvent event) {
         updateStatus(event.getOrderId(), Order.OrderStatus.CANCELED);
+    }
+
+    @QueryHandler
+    public Order handle(FindOrderQuery query) {
+        return orderRepository.findById(query.getId()).get();
     }
 
     private void updateStatus(String orderId, Order.OrderStatus orderStatus) {

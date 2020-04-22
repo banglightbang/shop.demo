@@ -1,38 +1,25 @@
 package com.tv.bang.orders.web;
 
-import com.tv.bang.orders.command.order.CreateOrderCommand;
 import com.tv.bang.orders.query.order.Order;
-import com.tv.bang.orders.query.order.OrderRepository;
-import org.axonframework.commandhandling.gateway.CommandGateway;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.tv.bang.orders.service.OrderService;
+import lombok.AllArgsConstructor;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.UUID;
+import java.util.List;
 
 @RestController
+@AllArgsConstructor
 public class OrderController {
 
-    private final CommandGateway commandGateway;
-    private final OrderRepository orderRepository;
-
-    public OrderController(CommandGateway commandGateway, OrderRepository orderRepository) {
-        this.commandGateway = commandGateway;
-        this.orderRepository = orderRepository;
-    }
+    private final OrderService orderService;
 
     @GetMapping("/orders/{id}")
     public Order get(@PathVariable String id) {
-        return orderRepository.findById(id).get();
+        return orderService.findById(id);
     }
 
     @PostMapping("/orders")
-    public void create(OrderDto order) {
-        String orderId = UUID.randomUUID().toString();
-        CreateOrderCommand command = new CreateOrderCommand(orderId,
-                order.getItemIds());
-
-        commandGateway.send(command);
+    public void create(@RequestBody List<String> itemsIds) {
+        orderService.create(itemsIds);
     }
 }

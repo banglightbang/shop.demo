@@ -23,4 +23,3 @@ public class Order {
     private List<String> items;
     private OrderStatus orderStatus;
 }
-
