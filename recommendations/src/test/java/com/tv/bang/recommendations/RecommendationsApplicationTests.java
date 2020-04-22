@@ -9,5 +9,4 @@ class RecommendationsApplicationTests {
 	@Test
 	void contextLoads() {
 	}
-
 }
