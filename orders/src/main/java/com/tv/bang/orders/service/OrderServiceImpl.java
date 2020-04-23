@@ -2,6 +2,8 @@ package com.tv.bang.orders.service;
 
 import com.tv.bang.orders.client.Item;
 import com.tv.bang.orders.client.ItemClient;
+import com.tv.bang.orders.command.order.CancelOrderCommand;
+import com.tv.bang.orders.command.order.CheckOutOrderCommand;
 import com.tv.bang.orders.command.order.CreateOrderCommand;
 import com.tv.bang.orders.query.order.FindOrderQuery;
 import com.tv.bang.orders.query.order.Order;
@@ -35,6 +37,16 @@ public class OrderServiceImpl implements OrderService {
         CreateOrderCommand command = new CreateOrderCommand(orderId, itemIds, calculatePrice(itemIds));
 
         commandGateway.send(command);
+    }
+
+    @Override
+    public void checkout(String id) {
+        commandGateway.send(new CheckOutOrderCommand(id));
+    }
+
+    @Override
+    public void cancel(String id) {
+        commandGateway.send(new CancelOrderCommand(id));
     }
 
     private BigDecimal calculatePrice(List<String> itemIds) throws InvalidOrderException {

@@ -59,6 +59,12 @@ zuul:
   host:
     max-total-connections: 1000
     max-per-route-connections: 100
-  prefix: /services
   semaphore:
     max-semaphores: 500
+  routes:
+    inventory:
+      path: /inventory/**
+      strip_prefix: true
+    orders:
+      path: /ordering/**
+      strip_prefix: true

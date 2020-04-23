@@ -7,4 +7,6 @@ import java.util.List;
 public interface OrderService {
     Order findById(String orderId);
     void create(List<String> itemsId) throws InvalidOrderException;
+    void checkout(String id);
+    void cancel(String id);
 }

@@ -22,4 +22,14 @@ public class OrderController {
     public void create(@RequestBody List<String> itemsIds) throws Exception {
         orderService.create(itemsIds);
     }
+
+    @PutMapping("/orders/{id}/checkout")
+    public void checkout(@PathVariable String id) throws Exception {
+        orderService.checkout(id);
+    }
+
+    @DeleteMapping("/orders/{id}")
+    public void create(@PathVariable String id) throws Exception {
+        orderService.cancel(id);
+    }
 }
