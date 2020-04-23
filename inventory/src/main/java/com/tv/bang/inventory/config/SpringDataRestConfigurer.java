@@ -6,7 +6,7 @@ import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer;
 import org.springframework.stereotype.Component;
 
 @Component
-public class RestConfigurer implements RepositoryRestConfigurer {
+public class SpringDataRestConfigurer implements RepositoryRestConfigurer {
 
     @Override
     public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config) {

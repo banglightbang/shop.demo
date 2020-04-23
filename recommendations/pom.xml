@@ -11,7 +11,7 @@
 
 	<groupId>com.tv.bang</groupId>
 	<artifactId>recommendations</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0-SNAPSHOT</version>
 	<name>recommendations</name>
 	<description>Recommendations module</description>
 

@@ -5,10 +5,12 @@ import com.tv.bang.orders.client.ItemClient;
 import com.tv.bang.orders.command.order.CancelOrderCommand;
 import com.tv.bang.orders.command.order.CheckOutOrderCommand;
 import com.tv.bang.orders.command.order.CreateOrderCommand;
+import com.tv.bang.orders.query.order.FindAllOrdersQuery;
 import com.tv.bang.orders.query.order.FindOrderQuery;
 import com.tv.bang.orders.query.order.Order;
 import lombok.AllArgsConstructor;
 import org.axonframework.commandhandling.gateway.CommandGateway;
+import org.axonframework.messaging.responsetypes.ResponseTypes;
 import org.axonframework.queryhandling.QueryGateway;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +31,11 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Order findById(String orderId) {
         return queryGateway.query(new FindOrderQuery(orderId), Order.class).join();
+    }
+
+    @Override
+    public List<Order> findAll() {
+        return queryGateway.query(new FindAllOrdersQuery(), ResponseTypes.multipleInstancesOf(Order.class)).join();
     }
 
     @Override

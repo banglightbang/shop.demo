@@ -61,6 +61,7 @@ zuul:
     max-per-route-connections: 100
   semaphore:
     max-semaphores: 500
+  ignoredServices: '*'
   routes:
     inventory:
       path: /inventory/**

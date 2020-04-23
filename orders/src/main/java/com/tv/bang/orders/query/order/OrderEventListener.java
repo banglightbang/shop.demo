@@ -8,6 +8,8 @@ import org.axonframework.queryhandling.QueryHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class OrderEventListener {
 
@@ -41,6 +43,11 @@ public class OrderEventListener {
     @QueryHandler
     public Order handle(FindOrderQuery query) {
         return orderRepository.findById(query.getId()).get();
+    }
+
+    @QueryHandler
+    public List<Order> handle(FindAllOrdersQuery query) {
+        return orderRepository.findAll();
     }
 
     private void updateStatus(String orderId, Order.OrderStatus orderStatus) {
