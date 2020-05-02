@@ -1,0 +1,6 @@
+version: '2'
+services:
+  orders-axon:
+    image: axoniq/axonserver:4.3.3
+    ports:
+      - '8124:8124'

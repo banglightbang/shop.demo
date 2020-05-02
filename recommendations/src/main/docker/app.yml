@@ -1,0 +1,6 @@
+version: '2'
+services:
+  recommendations-app:
+    image: bangbangman/shop.demo.recommendations
+    environment:
+      - _JAVA_OPTIONS=-Xmx512m -Xms256m

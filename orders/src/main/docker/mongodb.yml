@@ -1,0 +1,6 @@
+version: '2'
+services:
+  orders-mongodb:
+    image: mongo:4.0.16
+    ports:
+      - '27019:27019'

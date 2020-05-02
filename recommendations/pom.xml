@@ -15,6 +15,10 @@
 	<name>recommendations</name>
 	<description>Recommendations module</description>
 
+	<properties>
+		<image.path>registry.hub.docker.com/bangbangman/shop.demo.recommendations</image.path>
+	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
@@ -33,4 +37,32 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>com.google.cloud.tools</groupId>
+				<artifactId>jib-maven-plugin</artifactId>
+				<version>${jib-maven-plugin.version}</version>
+				<configuration>
+					<from>
+						<image>${openjdk.image}</image>
+					</from>
+					<to>
+						<image>${image.path}</image>
+					</to>
+					<container>
+						<ports>
+							<port>8083</port>
+						</ports>
+						<environment>
+							<SPRING_OUTPUT_ANSI_ENABLED>ALWAYS</SPRING_OUTPUT_ANSI_ENABLED>
+						</environment>
+						<creationTime>USE_CURRENT_TIMESTAMP</creationTime>
+					</container>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
 </project>

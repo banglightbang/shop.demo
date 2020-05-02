@@ -1,0 +1,61 @@
+version: '2'
+services:
+  mongodb:
+    image: mongo:4.0.16
+    ports:
+      - '27017:27017'
+  registration-service:
+    image: bangbangman/shop.demo.registration-service
+    ports:
+      - 8761:8761
+  config-service:
+    image: bangbangman/shop.demo.config-service
+    volumes:
+      - ./config-data:/var/config-data
+    environment:
+      - EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://registration-service:8761/eureka
+      - SPRING_CLOUD_CONFIG_SERVER_NATIVE_SEARCHLOCATIONS=/var/config-data
+      - SPRING_DATA_MONGODB_URI=mongodb://mongodb:27017/?waitQueueMultiple=1000
+    depends_on:
+      - registration-service
+  inventory-app:
+    image: bangbangman/shop.demo.inventory
+    environment:
+      - EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://registration-service:8761/eureka
+      - SPRING_CLOUD_CONFIG_URI=http://config-service:8888
+      - SPRING_DATA_MONGODB_URI=mongodb://mongodb:27017/?waitQueueMultiple=1000
+    depends_on:
+      - mongodb
+      - registration-service
+      - config-service
+  orders-app:
+    image: bangbangman/shop.demo.orders
+    environment:
+      - EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://registration-service:8761/eureka
+      - SPRING_CLOUD_CONFIG_URI=http://config-service:8888
+      - SPRING_DATA_MONGODB_URI=mongodb://mongodb:27017/?waitQueueMultiple=1000
+    restart: on-failure
+    depends_on:
+      - registration-service
+      - config-service
+      - mongodb
+      - inventory-app
+  recommendations-app:
+    image: bangbangman/shop.demo.recommendations
+    environment:
+      - EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://registration-service:8761/eureka
+      - SPRING_CLOUD_CONFIG_URI=http://config-service:8761
+  gateway-api:
+    image: bangbangman/shop.demo.gateway-api
+    environment:
+      - EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://registration-service:8761/eureka
+      - SPRING_CLOUD_CONFIG_URI=http://config-service:8888
+    restart: on-failure
+    depends_on:
+      - registration-service
+      - config-service
+      - inventory-app
+      - orders-app
+      - recommendations-app
+    ports:
+      - 8080:8080

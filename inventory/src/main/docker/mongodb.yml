@@ -1,0 +1,6 @@
+version: '2'
+services:
+  inventory-mongodb:
+    image: mongo:4.0.16
+    ports:
+      - '27018:27018'
