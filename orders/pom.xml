@@ -18,7 +18,7 @@
 
 	<properties>
 		<axon.version>4.1.2</axon.version>
-		<guava.version>28.0-jre</guava.version>
+		<guava.version>29.0-jre</guava.version>
 		<image.path>registry.hub.docker.com/bangbangman/shop.demo.orders</image.path>
 	</properties>
 
